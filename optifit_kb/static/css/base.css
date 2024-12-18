@@ -1,8 +1,26 @@
+/* static/css/base.css */
+
 body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
 }
+
+header { /* Style the header as needed */
+    width: 100%;
+    position: relative; /* Important for containing fixed navbar */
+}
+
+.header-content {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column; /* Stack navbar and breadcrumbs */
+    width: 100%;
+    /* z-index: 1000; */
+    background-color: #fff;
+}
+
 
 .navbar {
     display: flex;
@@ -10,9 +28,9 @@ body {
     background: #333;
     color: #6c12e1;
     padding: 1rem;
-    position: fixed;
+    /* position: fixed; */
     width: 100%;
-    z-index: 100;
+    /* z-index: 100; */
     justify-content: flex-start; /* Align items to the left */
 }
 
@@ -35,6 +53,34 @@ body {
     text-decoration: underline; /* Optional: underline links on hover */
 }
 
+/* Custom Breadcrumb Styling */
+.breadcrumb {
+    background-color: #f0f0f0; /* Optional: background color */
+    padding: 0.75rem 1rem;     /* Adjust padding as needed */
+    margin-top: 0.0rem;          /* Space above the breadcrumbs */
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "›";               /* Custom separator */
+    color: #6c757d;             /* Separator color */
+    padding: 0 0.5rem;
+}
+
+.breadcrumb-item a {
+    color: #007bff;             /* Link color */
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;             /* Active item color */
+    font-weight: bold;
+}
+
+
 
 .layout {
     display: flex;
@@ -50,12 +96,19 @@ main {
     min-height: calc(100vh - 70px); /* Ensure content is at least viewport height minus navbar height */
 }
 
+
+.main-content {
+    padding: 1rem;
+    padding-top: 0; /* Adjust to match navbar height */
+    
+}
+
 .sidebar {
     width: 250px;
     padding: 1rem;
     background: #f5f5f5;
     position: sticky;
-    top: 70px; /* Adjust to match navbar height */
+    top: 1rem;
     overflow-y: auto; /* Only if content overflows */
 }
 
@@ -102,7 +155,7 @@ h1, h2, h3, h4 {
     font-family: sans-serif;
     font-weight: bold; /* Ensure bold font */
     color: #333;       /* Use a dark color for contrast */
-    margin-top: 1.5rem;
+    margin-top: 0.0rem;
     margin-bottom: 0.5rem;
 }
 
@@ -147,9 +200,6 @@ h4 {
     color: #333;
 }
 
-.main-content {
-    padding-top: 70px; /* Adjust to match navbar height */
-}
 
 .category-list { /* New class name for the list */
     list-style: none; /* Remove default bullet points */

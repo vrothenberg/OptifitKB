@@ -1,6 +1,7 @@
 {# base/templates/base.html #}
 
 {% load static %}
+{% load wagtailcore_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,8 +16,16 @@
 </head>
 <body>
     <header>
-        {% include "includes/navigation.html" %}
+        <div class="header-content">
+            {% include "includes/navigation.html" %}
+
+            {% include "includes/breadcrumb.html" %}
+
+        </div>
     </header>
+    
+
+
     <div class="main-content">
         <div class="layout">
             {% block sidebar %}{% endblock sidebar %}

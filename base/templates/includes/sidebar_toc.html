@@ -1,0 +1,30 @@
+{# base/templates/includes/sidebar_toc.html #}
+<aside class="sidebar">
+    <h3>Table of Contents</h3>
+    {% if toc %}
+    <div class="toc-container"> {% for item in toc %}
+        <div class="toc-item">
+            <a href="#{{ item.id }}">{{ item.text }}</a>
+            {% if item.children %}
+            <div class="toc-children"> {% for child in item.children %}
+                <div class="toc-item">
+                    <a href="#{{ child.id }}">{{ child.text }}</a>
+                    {% if child.children %}
+                    <div class="toc-children"> {% for grandchild in child.children %}
+                        <div class="toc-item">
+                            <a href="#{{ grandchild.id }}">{{ grandchild.text }}</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No table of contents available for this page.</p>
+    {% endif %}
+</aside>

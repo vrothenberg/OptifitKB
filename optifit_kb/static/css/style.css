@@ -1,0 +1,139 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    display: flex;
+    align-items:center;
+    background: #333;
+    color: #6c12e1;
+    padding: 1rem;
+}
+
+.navbar a {
+    color: #fff;
+    margin-right: 1rem;
+    text-decoration: none;
+}
+
+
+.navbar-logo {
+    height: 50px; /* Adjust the height */
+    width: auto;  /* Keep the aspect ratio */
+    margin-right: 10px; /* Add space between the logo and the links */
+    vertical-align: middle; /* Align the logo with the text */
+}
+
+.navbar a:hover {
+    text-decoration: underline; /* Optional: underline links on hover */
+}
+
+
+.layout {
+    display: flex;
+    max-width: 1200px;
+    margin: auto;
+}
+
+main {
+    flex: 1;
+    padding: 2rem;
+}
+
+.sidebar {
+    width: 250px;
+    padding: 2rem;
+    background: #f5f5f5;
+}
+
+
+.rich-text {
+    margin-bottom: 1rem;
+}
+
+.key-facts {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.key-facts li {
+    margin-bottom: 0.5rem;
+}
+
+.faqs strong {
+    color: #333;
+}
+
+.references ul {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+}
+
+.references li {
+    margin-bottom: 0.5rem;
+}
+
+.bullet-points {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.bullet-points li {
+    margin-bottom: 0.5rem;
+}
+
+
+/* General heading styles */
+h1, h2, h3, h4 {
+    font-family: sans-serif;
+    font-weight: bold; /* Ensure bold font */
+    color: #333;       /* Use a dark color for contrast */
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Specific heading styles */
+h1 {
+    font-size: 2.5rem;
+    color: #222; /* Slightly darker for h1 */
+}
+
+h2 {
+    font-size: 2rem;
+    border-bottom: 2px solid #ccc; /* Add a subtle underline */
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+    color: #444;
+}
+
+h4 {
+    font-size: 1.5rem;
+    color: #555;
+}
+
+/* Rich text and bullet points adjustments */
+.rich-text p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.bullet-points {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+    line-height: 1.5;
+}
+
+
+.category-label {
+    font-weight: bold; /* Makes the text bold */
+    /* Add any other styles you want here, e.g., */
+    font-size: 1.1em;
+    color: #333;
+}

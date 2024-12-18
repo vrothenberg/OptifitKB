@@ -1,0 +1,14 @@
+{# knowledgebase/templates/knowledgebase/index_page.html #}
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+{% comment %} <h1>{{ page.title }}</h1> {% endcomment %}
+<h1>Categories</h1>
+<hr>
+<ul class="category-list">
+    {% for cat in page.get_children.live %}
+    <li><a href="{{ cat.url }}">{{ cat.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock content %}

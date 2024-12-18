@@ -1,0 +1,21 @@
+{# base/templates/includes/navigation.html #}
+
+{% load wagtailcore_tags %}
+{% load static %}
+
+<nav class="navbar">
+    <a href="/">
+        <img src="{% static 'images/logo.png' %}" alt="Site Logo" class="navbar-logo">
+    </a>
+    <a href="/">Home</a>
+    {% if kb_page %}
+        <a href="{% pageurl kb_page %}">Knowledge Base</a>
+    {% else %}
+        <a href="/index">Knowledge Base</a>
+    {% endif %}
+    {% if about_page %}
+        <a href="{% pageurl about_page %}">About</a>
+    {% else %}
+        <a href="/about">About</a>
+    {% endif %}
+</nav>

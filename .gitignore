@@ -1,0 +1,11 @@
+*.sqlite3
+*.bak
+*.pyc
+Dockerfile
+__pycache__/
+
+env/
+.env
+
+project_content.txt
+project_structure.txt

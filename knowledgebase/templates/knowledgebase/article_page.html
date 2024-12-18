@@ -1,0 +1,33 @@
+{# knowledgebase/templates/knowledgebase/article_page.html #}
+{% extends "base.html" %}
+{% load wagtailcore_tags kb_tags %}
+
+
+{% block content %}
+{% render_article_content page %}
+<article>
+    <h1>{{ page.title }}</h1>
+    <p class="category-label">Category: <a href="{{ page.category.url }}">{{ page.category.title }}</a></p>
+    <div class="article-intro">
+        <p>{{ page.intro }}</p>
+    </div>
+    <hr>
+
+{% comment %} 
+<pre>
+{{ article_data.toc|pprint }}
+</pre>
+{% endcomment %}
+
+    <div class="article-body">
+        {{ article_data.body }}
+    </div>
+
+
+</article>
+{% endblock content %}
+
+{% block sidebar %}
+{% render_article_content page %}
+{% include "includes/sidebar_toc.html" with toc=article_data.toc %}
+{% endblock sidebar %}

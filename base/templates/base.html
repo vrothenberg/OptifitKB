@@ -1,0 +1,32 @@
+{# base/templates/base.html #}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Knowledge Base" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ page.title }} | {{ site_name }}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+</head>
+<body>
+    <header>
+        {% include "includes/navigation.html" %}
+    </header>
+    <div class="main-content">
+        <div class="layout">
+            {% block sidebar %}{% endblock sidebar %}
+            <main>
+                {% block content %}{% endblock content %}
+            </main>
+        </div>
+    </div>
+    {% comment %} <footer>
+        <p>{{ footer_text }}</p>
+    </footer> {% endcomment %}
+</body>
+</html>

@@ -4,7 +4,7 @@ import fnmatch
 MAX_CHARACTERS = 10000
 
 def display_project_structure_with_content(startpath='.'):
-    excluded_dirs = ['env', 'media', '.git', '__pycache__', 'migrations']  # Add more if needed
+    excluded_dirs = ['env', 'media', '.git', '__pycache__', 'migrations', 'static']  # Add more if needed
     text_file_patterns = ['*.py', '*.html', '*.css', '*.json', '*.yaml', '*.yml']
 
     for root, dirs, files in os.walk(startpath):

@@ -1,7 +1,8 @@
 # knowledgebase/blocks.py
-
+from django import forms
 from wagtail import blocks
-from wagtail.fields import StreamField
+from markdown import Markdown  # Or from mistune import Markdown
+from django.utils.safestring import mark_safe
 
 
 class HeadingBlock(blocks.StructBlock):
@@ -72,3 +73,15 @@ class ReferenceListBlock(blocks.ListBlock):
     class Meta:
         icon = 'list-ol'
         label = 'References'
+
+
+
+class MarkdownBlock(blocks.TextBlock):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # If using wagtail-markdown, you might set a custom widget here
+        # self.field.widget = forms.Textarea(attrs={'class': 'markdown-widget'})
+
+    def render_basic(self, value, context=None):
+        md = Markdown(extensions=['extra', 'codehilite'])  # Add extensions as needed
+        return mark_safe(md.convert(value))

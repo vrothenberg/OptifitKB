@@ -6,7 +6,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField, StreamField
 from .blocks import (
     HeadingBlock, RichTextBlock, KeyFactsBlock, FAQListBlock, ReferenceListBlock, 
-    BulletPointBlock
+    BulletPointBlock, MarkdownBlock
 )
 
 class IndexPage(Page):
@@ -14,6 +14,19 @@ class IndexPage(Page):
     max_count = 1  # Only one index page at root
 
     content_panels = Page.content_panels
+
+    def get_context(self, request, *args, **kwargs):
+        """
+        Overriding the get_context method to modify the context.
+        """
+        context = super().get_context(request, *args, **kwargs)
+
+        # Get live CategoryPage children and order them alphabetically by title
+        categories = CategoryPage.objects.live().child_of(self).order_by('title')
+
+        context['categories'] = categories
+        return context
+
 
 class CategoryPage(Page):
     intro = RichTextField(blank=True)
@@ -23,6 +36,17 @@ class CategoryPage(Page):
         FieldPanel('intro'),
     ]
 
+    def get_context(self, request, *args, **kwargs):
+        """
+        Overriding the get_context method to modify the context.
+        """
+        context = super().get_context(request, *args, **kwargs)
+
+        # Get live ArticlePage children and order them alphabetically by title
+        articles = ArticlePage.objects.live().child_of(self).order_by('title')
+
+        context['articles'] = articles
+        return context
 
 
 class ArticlePage(Page):
@@ -32,6 +56,7 @@ class ArticlePage(Page):
     body = StreamField(
         [
             ('heading', HeadingBlock()),
+            ('markdown', MarkdownBlock()),
             ('rich_text', RichTextBlock()),
             ('bullet_points', BulletPointBlock()),
             ('key_facts', KeyFactsBlock()),

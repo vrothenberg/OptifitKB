@@ -54,7 +54,7 @@ class Command(BaseCommand):
         self.create_article_page(category_page, article_data, streamfield_data)
 
         # Validate tree integrity
-        self.stdout.write("Validating tree integrity...")
+        # self.stdout.write("Validating tree integrity...")
         
         FixTreeCommand().handle()
 
@@ -121,12 +121,20 @@ class Command(BaseCommand):
     def create_article_page(self, category_page, article_data, streamfield_data):
         """Create a new ArticlePage."""
         try:
+            # Get the StreamField definition from the ArticlePage model
+            body_field = ArticlePage._meta.get_field('body')
+
+            # Convert the raw streamfield_data (list of dicts) into a StreamValue
+            stream_value = body_field.stream_block.to_python(streamfield_data)
+
+            # Create the ArticlePage with the StreamValue
             article_page = ArticlePage(
                 title=article_data['title'],
                 intro=article_data.get('subtitle', ''),
-                body=streamfield_data,
+                body=stream_value,  # Set the body field with the StreamValue
                 category=category_page
             )
+
             category_page.add_child(instance=article_page)
             article_page.save_revision().publish()
             self.stdout.write(f"Successfully imported article: {article_data['title']}")

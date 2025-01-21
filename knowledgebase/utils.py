@@ -77,6 +77,15 @@ def generate_wagtail_streamfield_data(article_data):
     streamfield_data = []
     print("generate_wagtail_streamfield_data")
 
+    def convert_to_markdown(content):
+        """Convert content to Markdown block."""
+        print("convert_to_markdown")
+        return {
+            "type": "markdown",
+            "value": content if isinstance(content, str) else str(content)
+        }
+
+
     def convert_to_bullet_points(content_list):
         """Convert a list of strings/dicts to bullet points (key_facts)."""
         print("convert_to_bullet_points")
@@ -84,7 +93,7 @@ def generate_wagtail_streamfield_data(article_data):
         # If all items are strings
         if all(isinstance(item, str) for item in content_list):
             bullet_points_list = [item for item in content_list]
-            print(bullet_points_list)
+            # print(bullet_points_list)
 
             return {
                 "type": "bullet_points",
@@ -130,7 +139,7 @@ def generate_wagtail_streamfield_data(article_data):
         heading = section.get("heading", "")
         content = section.get("content", "")
 
-        print("SECTION:", heading)
+        # print("SECTION:", heading)
 
         # Add the heading
         if heading:
@@ -148,19 +157,19 @@ def generate_wagtail_streamfield_data(article_data):
             if isinstance(content, list):
                 streamfield_data.append(convert_to_bullet_points(content))
             elif isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
 
         elif heading == "Symptoms":
             # Similar to key facts, often bullet points
             if isinstance(content, list):
                 streamfield_data.append(convert_to_bullet_points(content))
             elif isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
 
         elif heading == "Types":
             # Could be markdown with ### subheadings or bullet points
             if isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
             else:
                 # If unexpected format, fallback
                 if isinstance(content, list):
@@ -169,7 +178,7 @@ def generate_wagtail_streamfield_data(article_data):
         elif heading == "Causes":
             # Likely a string, convert to rich_text
             if isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
             else:
                 # If it's a list, treat as bullet points
                 if isinstance(content, list):
@@ -180,12 +189,12 @@ def generate_wagtail_streamfield_data(article_data):
             if isinstance(content, list):
                 streamfield_data.append(convert_to_bullet_points(content))
             elif isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
 
         elif heading == "Diagnosis":
             # Often markdown subheadings
             if isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
             else:
                 # If list, handle as bullet points
                 if isinstance(content, list):
@@ -196,12 +205,12 @@ def generate_wagtail_streamfield_data(article_data):
             if isinstance(content, list):
                 streamfield_data.append(convert_to_bullet_points(content))
             elif isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
 
         elif heading == "Specialist to Visit":
             # Probably a string
             if isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
             else:
                 streamfield_data.append(convert_to_bullet_points(content) if isinstance(content, list) else {
                     "type": "rich_text",
@@ -211,7 +220,7 @@ def generate_wagtail_streamfield_data(article_data):
         elif heading == "Treatment":
             # Likely a string
             if isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
             else:
                 streamfield_data.append(convert_to_bullet_points(content) if isinstance(content, list) else {
                     "type": "rich_text",
@@ -223,26 +232,26 @@ def generate_wagtail_streamfield_data(article_data):
             if isinstance(content, list):
                 streamfield_data.append(convert_to_bullet_points(content))
             elif isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
 
         elif heading == "Living With":
             # Usually text
             if isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
             else:
                 streamfield_data.append(convert_to_bullet_points(content))
 
         elif heading == "Complications":
             # Usually text
             if isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
             else:
                 streamfield_data.append(convert_to_bullet_points(content))
 
         elif heading == "Alternative Therapies":
             # Usually text
             if isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
             else:
                 streamfield_data.append(convert_to_bullet_points(content))
 
@@ -258,7 +267,7 @@ def generate_wagtail_streamfield_data(article_data):
                 if isinstance(content, list):
                     streamfield_data.append(convert_to_bullet_points(content))
                 elif isinstance(content, str):
-                    streamfield_data.append(convert_to_rich_text(content))
+                    streamfield_data.append(convert_to_markdown(content))
 
         elif heading == "References":
             # Expect a list of dict with reference info
@@ -307,14 +316,14 @@ def generate_wagtail_streamfield_data(article_data):
                 if isinstance(content, list):
                     streamfield_data.append(convert_to_bullet_points(content))
                 elif isinstance(content, str):
-                    streamfield_data.append(convert_to_rich_text(content))
+                    streamfield_data.append(convert_to_markdown(content))
 
         else:
             # For headings not specifically handled above or if heading is empty:
             if isinstance(content, list):
                 streamfield_data.append(convert_to_bullet_points(content))
             elif isinstance(content, str):
-                streamfield_data.append(convert_to_rich_text(content))
+                streamfield_data.append(convert_to_markdown(content))
             elif isinstance(content, dict):
                 # Unknown dict structure
                 streamfield_data.append({
@@ -331,7 +340,7 @@ def generate_wagtail_streamfield_data(article_data):
     body_field = ArticlePage._meta.get_field("body")
     block_def = body_field.stream_block
     
-    print("COMPLETE\n\n")
+    # print("COMPLETE\n\n")
     # print(streamfield_data)
     return StreamValue(block_def, streamfield_data, is_lazy=True)
 

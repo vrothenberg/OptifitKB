@@ -363,6 +363,8 @@ h4 {
 
 
 
+
+/* Styles for the search form in the navigation bar */
 .search-form {
     margin-left: auto; /* Align to the right */
     display: flex;
@@ -372,19 +374,48 @@ h4 {
 .search-form input[type="text"] {
     padding: 0.3rem;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 0.5rem;
+    border-radius: 5px 0 0 5px; /* Rounded corners on the left only */
+    border-right: none; /* Remove right border */
+    margin-right: 0; /* Remove margin */
 }
 
 .search-form button {
     background-color: #007bff; /* Or your desired button color */
     color: #fff;
-    border: none;
+    border: 1px solid #007bff; /* Add a border to the button */
     padding: 0.3rem 0.8rem;
-    border-radius: 5px;
+    border-radius: 0 5px 5px 0; /* Rounded corners on the right only */
     cursor: pointer;
 }
 
 .search-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles for the search form on the results page */
+.results-search-form {
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Align items vertically */
+    margin-bottom: 2rem; /* Add some space below the form */
+}
+
+.results-search-form input[type="text"] {
+    padding: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px; /* Rounded corners on the left only */
+    border-right: none; /* Remove right border */
+    margin-right: 0; /* Remove margin to connect with button */
+}
+
+.results-search-form button {
+    background-color: #007bff; /* Or your desired button color */
+    color: #fff;
+    border: 1px solid #007bff; /* Add a border to the button */
+    padding: 0.3rem 0.8rem;
+    border-radius: 0 5px 5px 0; /* Rounded corners on the right only */
+    cursor: pointer;
+}
+
+.results-search-form button:hover {
     background-color: #0056b3;
 }

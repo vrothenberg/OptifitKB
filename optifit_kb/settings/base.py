@@ -63,8 +63,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
-    # "wagtail.contrib.settings.middleware.SettingsMiddleware",
-    # 'wagtail.contrib.sites.middleware.SiteMiddleware',
+    # "wagtail.middleware.SiteMiddleware",
 ]
 
 ROOT_URLCONF = "optifit_kb.urls"

@@ -8,6 +8,7 @@ from .blocks import (
     HeadingBlock, RichTextBlock, KeyFactsBlock, FAQListBlock, ReferenceListBlock, 
     BulletPointBlock, MarkdownBlock
 )
+from wagtail.search import index 
 
 class IndexPage(Page):
     subpage_types = ['knowledgebase.CategoryPage']
@@ -81,6 +82,14 @@ class ArticlePage(Page):
         FieldPanel('intro'),
         FieldPanel('body'),
         FieldPanel('category'),
+    ]
+
+    search_fields = Page.search_fields + [  # Define search_fields here
+        index.SearchField('intro'),
+        index.SearchField('body'),  # Include the body (StreamField)
+        index.RelatedFields('category', [  # Include the category's title
+            index.SearchField('title'),
+        ]),
     ]
 
     def save(self, *args, **kwargs):

@@ -1,6 +1,36 @@
 {% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
 
 {% block content %}
-<h1>{{ page.title }}</h1>
-<p>Welcome to the OptiFit knowledge base. Browse our categories or search.</p>
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1>Welcome to the OptiFit Knowledge Base</h1>
+            <p>Your AI-Powered Resource for Evidence-Based Medical Information</p>
+            <a href="{% if kb_page %}{% pageurl kb_page %}{% else %}/index{% endif %}" class="button">Explore the Knowledge Base</a>
+        </div>
+        <div class="hero-image">
+            <img src="{% static 'images/medical-knowledge-2.jpg' %}" alt="Medical Knowledge">
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="feature">
+        <img src="{% static 'images/ai-icon.svg' %}" alt="AI Icon" class="feature-icon">
+        <h2>AI-Enhanced</h2>
+        <p>Leverage the power of AI to find the most relevant and up-to-date medical research.</p>
+    </div>
+    <div class="feature">
+        <img src="{% static 'images/structure-icon.svg' %}" alt="Structure Icon" class="feature-icon">
+        <h2>Structured Content</h2>
+        <p>Explore well-organized articles with clear headings, key facts, FAQs, and references.</p>
+    </div>
+    <div class="feature">
+        <img src="{% static 'images/search-icon.svg' %}" alt="Search Icon" class="feature-icon">
+        <h2>Powerful Search</h2>
+        <p>Quickly find the information you need with our advanced search capabilities.</p>
+    </div>
+</section>
 {% endblock content %}

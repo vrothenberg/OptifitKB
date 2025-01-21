@@ -3,7 +3,8 @@
 *.pyc
 Dockerfile
 __pycache__/
-static/
+
+/static 
 
 env/
 .env

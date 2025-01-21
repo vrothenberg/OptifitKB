@@ -3,11 +3,13 @@
 {% load wagtailcore_tags kb_tags %}
 
 
+
+
 {% block content %}
 {% render_article_content page %}
 <article>
     <h1>{{ page.title }}</h1>
-    <p class="category-label">Category: <a href="{{ page.category.url }}">{{ page.category.title }}</a></p>
+    {% comment %} <p class="category-label">Category: <a href="{{ page.category.url }}">{{ page.category.title }}</a></p> {% endcomment %}
     <div class="article-intro">
         <p>{{ page.intro }}</p>
     </div>

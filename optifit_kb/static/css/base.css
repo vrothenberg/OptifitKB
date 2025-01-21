@@ -360,3 +360,31 @@ h4 {
     font-size: 1.1rem;
     line-height: 1.5;
 }
+
+
+
+.search-form {
+    margin-left: auto; /* Align to the right */
+    display: flex;
+    align-items: center;
+}
+
+.search-form input[type="text"] {
+    padding: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+}
+
+.search-form button {
+    background-color: #007bff; /* Or your desired button color */
+    color: #fff;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #0056b3;
+}

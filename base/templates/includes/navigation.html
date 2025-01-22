@@ -3,24 +3,32 @@
 {% load wagtailcore_tags %}
 {% load static %}
 
-<nav class="navbar">
-    <a href="/">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
         <img src="{% static 'images/logo.png' %}" alt="Site Logo" class="navbar-logo">
     </a>
-    <a href="/">Home</a>
-    {% if kb_page %}
-        <a href="{% pageurl kb_page %}">Knowledge Base</a>
-    {% else %}
-        <a href="/index">Knowledge Base</a>
-    {% endif %}
-    {% if about_page %}
-        <a href="{% pageurl about_page %}">About</a>
-    {% else %}
-        <a href="/about">About</a>
-    {% endif %}
-
-    <form action="{% url 'search' %}" method="get" class="search-form">
-        <input type="text" name="query" placeholder="Search..." value="{{ search_query|default:'' }}">
-        <button type="submit">Go</button>
-    </form>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="main-nav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+        {% if kb_page %}
+            <li class="nav-item"><a class="nav-link" href="{% pageurl kb_page %}">Knowledge Base</a></li>
+        {% else %}
+            <li class="nav-item"><a class="nav-link" href="/index">Knowledge Base</a></li>
+        {% endif %}
+        {% if about_page %}
+            <li class="nav-item"><a class="nav-link" href="{% pageurl about_page %}">About</a></li>
+        {% else %}
+            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+        {% endif %}
+      </ul>
+      <form action="{% url 'search' %}" method="get" class="d-flex search-form">
+        <input class="form-control" type="search" name="query" placeholder="Search..." value="{{ search_query|default:'' }}">
+        <button class="btn btn-outline-primary" type="submit">Go</button>
+      </form>
+    </div>
+  </div>
 </nav>

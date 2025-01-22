@@ -3,12 +3,23 @@
 {% load wagtailcore_tags %}
 
 {% block content %}
-{% comment %} <h1>{{ page.title }}</h1> {% endcomment %}
-<h1>Categories</h1>
-<hr>
-<ul class="category-list">
+<div class="container mt-4">
+  <h1>Categories</h1>
+  <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
     {% for cat in page.get_children.live %}
-    <li><a href="{{ cat.url }}">{{ cat.title }}</a></li>
+      <div class="col">
+        <div class="card h-100">
+          <a href="{{ cat.url }}" class="text-decoration-none">
+            <div class="card-body d-flex align-items-center">
+              <div class="icon-placeholder me-2">
+                <i class="fas fa-folder"></i>
+              </div>
+              <h5 class="card-title">{{ cat.title }}</h5>
+            </div>
+          </a>
+        </div>
+      </div>
     {% endfor %}
-</ul>
+  </div>
+</div>
 {% endblock content %}

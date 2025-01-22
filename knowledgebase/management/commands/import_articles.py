@@ -56,7 +56,7 @@ class Command(BaseCommand):
         # Validate tree integrity
         # self.stdout.write("Validating tree integrity...")
         
-        FixTreeCommand().handle()
+        # FixTreeCommand().handle()
 
     def get_or_create_index_page(self):
         """Ensure that an IndexPage exists, or create it."""

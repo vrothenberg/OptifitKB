@@ -12,6 +12,16 @@
     {% comment %} <p class="category-label">Category: <a href="{{ page.category.url }}">{{ page.category.title }}</a></p> {% endcomment %}
     <div class="article-intro">
         <p>{{ page.intro }}</p>
+
+        <div class="alert alert-primary" role="alert">
+            <div class="d-flex gap-4">
+              <span><i class="fa-solid fa-circle-info icon-primary"></i></span>
+              <div class="d-flex flex-column gap-2">
+                <h6 class="mb-0">Pending Review</h6>
+                <p class="mb-0">This article is pending review from our team of medical experts.</p>
+              </div>
+            </div>
+          </div>
     </div>
     <hr>
 

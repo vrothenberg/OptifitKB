@@ -75,11 +75,11 @@ def sanitize_html(html_content):
 
 def generate_wagtail_streamfield_data(article_data):
     streamfield_data = []
-    print("generate_wagtail_streamfield_data")
+    # print("generate_wagtail_streamfield_data")
 
     def convert_to_markdown(content):
         """Convert content to Markdown block."""
-        print("convert_to_markdown")
+        # print("convert_to_markdown")
         return {
             "type": "markdown",
             "value": content if isinstance(content, str) else str(content)
@@ -88,7 +88,7 @@ def generate_wagtail_streamfield_data(article_data):
 
     def convert_to_bullet_points(content_list):
         """Convert a list of strings/dicts to bullet points (key_facts)."""
-        print("convert_to_bullet_points")
+        # print("convert_to_bullet_points")
 
         # If all items are strings
         if all(isinstance(item, str) for item in content_list):

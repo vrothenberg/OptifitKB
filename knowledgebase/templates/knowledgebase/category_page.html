@@ -1,17 +1,36 @@
 {# knowledgebase/templates/knowledgebase/category_page.html #}
 
 {% extends "base.html" %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
-<div class="container">
-    <h1>{{ page.title }}</h1>
-    <div>{{ page.intro|richtext }}</div>
-    <hr>
-    <ul class="category-list">
-        {% for article in page.get_children.live %}
-        <li><a href="{{ article.url }}">{{ article.title }}</a></li>
-        {% endfor %}
-    </ul>
+<div class="container mt-4">
+  <h1>{{ page.title }}</h1>
+  <div class="intro">{{ page.intro|richtext }}</div>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+    {% for article in page.get_children.live %}
+      <div class="col">
+        <div class="card h-100">
+          <a href="{{ article.url }}" class="text-decoration-none">
+            {% if article.specific.card_image %}
+              {% image article.specific.card_image fill-400x300 as card_img %}
+              <img src="{{ card_img.url }}" class="card-img-top" alt="{{ article.specific.card_image_alt_text }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ article.title }}</h5>
+              {% if article.specific.intro %}
+                <p class="card-text">{{ article.specific.intro|truncatechars:150 }}</p>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col">
+        <p>No articles found in this category.</p>
+      </div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock content %}

@@ -11,6 +11,12 @@ logger = logging.getLogger(__name__)
 
 register = template.Library()
 
+@register.filter
+def split(value, delimiter=","):
+    if not value:
+        return []
+    return [v.strip() for v in value.split(delimiter)]
+
 @register.simple_tag(takes_context=True)
 def render_article_content(context, page):
     """
@@ -161,6 +167,7 @@ def generate_article_html_and_toc(streamfield_data):
     # html_content = html_content.encode('latin1').decode('unicode_escape')
 
     return html_content, toc
+
 
 def add_citation_links(text, reference_map):
     """

@@ -1,4 +1,3 @@
-# knowledgebase/management/commands/import_articles.py
 import json
 from pathlib import Path
 from django.core.management.base import BaseCommand
@@ -7,6 +6,7 @@ from django.utils.text import slugify
 from knowledgebase.models import IndexPage, CategoryPage, ArticlePage
 from knowledgebase.utils import generate_wagtail_streamfield_data
 from wagtail.management.commands.fixtree import Command as FixTreeCommand
+from wagtail.images import get_image_model
 
 # python manage.py import_articles --category-name category --json-path path/to/your/file.json
 class Command(BaseCommand):
@@ -48,15 +48,15 @@ class Command(BaseCommand):
         # Check for an existing article with the same title
         existing_article = category_page.get_children().type(ArticlePage).filter(title=article_data['title']).first()
         if existing_article:
-            self.delete_existing_article(existing_article)
-
-        # Create the new ArticlePage
-        self.create_article_page(category_page, article_data, streamfield_data)
+            self.update_existing_article(existing_article, article_data, streamfield_data)
+        else:
+            # Create the new ArticlePage
+            self.create_article_page(category_page, article_data, streamfield_data)
 
         # Validate tree integrity
-        # self.stdout.write("Validating tree integrity...")
-        
-        # FixTreeCommand().handle()
+        self.stdout.write("Validating tree integrity...")
+
+        FixTreeCommand().handle()
 
     def get_or_create_index_page(self):
         """Ensure that an IndexPage exists, or create it."""
@@ -94,6 +94,42 @@ class Command(BaseCommand):
             self.stdout.write(f"Created CategoryPage: {category_name}")
 
         return category_page
+    
+    def update_existing_article(self, article, article_data, streamfield_data):
+        """Update an existing ArticlePage with new data and publish a new revision."""
+        self.stdout.write(f"Updating existing article: {article.title}")
+
+        # Get the specific instance of the article (i.e. ArticlePage instance)
+        article = article.specific
+
+        # Update intro
+        article.intro = article_data.get('subtitle', '')
+
+        # Convert keywords from list to comma-separated string if needed.
+        keywords = article_data.get('keywords', '')
+        if isinstance(keywords, list):
+            keywords = ", ".join(keywords)
+        article.keywords = keywords
+
+        # Update the article image if provided
+        article_image_id = article_data.get('article_image', None)
+        if article_image_id:
+            try:
+                Image = get_image_model()
+                article.article_image = Image.objects.get(pk=article_image_id)
+            except (Image.DoesNotExist, ValueError) as e:
+                self.stderr.write(f"Invalid article image ID: {article_image_id}. Error: {e}")
+                article.article_image = None
+        else:
+            article.article_image = None
+
+        # Update the StreamField data (body)
+        article.body = streamfield_data
+
+        # Publish a new revision using the specific instance
+        article.specific.save_revision().publish()
+        self.stdout.write(f"Successfully updated article: {article.title}")
+
 
     def archive_existing_article(self, article):
         """Unpublish and move the article to an 'Archived' location instead of deleting."""
@@ -123,15 +159,31 @@ class Command(BaseCommand):
         try:
             # Get the StreamField definition from the ArticlePage model
             body_field = ArticlePage._meta.get_field('body')
+            stream_value = streamfield_data
 
-            # Convert the raw streamfield_data (list of dicts) into a StreamValue
-            stream_value = body_field.stream_block.to_python(streamfield_data)
+            # Handle the article image
+            article_image_id = article_data.get('article_image', None)
+            article_image = None
+            if article_image_id:
+                try:
+                    Image = get_image_model()
+                    article_image = Image.objects.get(pk=article_image_id)
+                except (Image.DoesNotExist, ValueError) as e:
+                    self.stderr.write(f"Invalid article image ID: {article_image_id}. Error: {e}")
+                    article_image = None
 
-            # Create the ArticlePage with the StreamValue
+            # Convert keywords from list to comma-separated string if needed.
+            keywords = article_data.get('keywords', '')
+            if isinstance(keywords, list):
+                keywords = ", ".join(keywords)
+            
+            # Create the ArticlePage with the StreamField value
             article_page = ArticlePage(
                 title=article_data['title'],
                 intro=article_data.get('subtitle', ''),
-                body=stream_value,  # Set the body field with the StreamValue
+                keywords=keywords,
+                article_image=article_image,
+                body=stream_value,
                 category=category_page
             )
 

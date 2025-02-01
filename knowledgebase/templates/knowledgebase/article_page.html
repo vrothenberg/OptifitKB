@@ -1,6 +1,6 @@
 {# knowledgebase/templates/knowledgebase/article_page.html #}
 {% extends "base.html" %}
-{% load wagtailcore_tags kb_tags %}
+{% load wagtailcore_tags kb_tags wagtailimages_tags%}
 
 
 
@@ -13,6 +13,17 @@
     <div class="article-intro">
         <p>{{ page.intro }}</p>
 
+        {% if page.keywords %}
+        <div class="article-keywords mt-3 mb-3">
+            {% for keyword in page.keywords|split %}
+            <span class="badge bg-primary rounded-pill py-2 px-2 me-2">{{ keyword|title }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+
+        {% if not page.reviewed %}
         <div class="alert alert-primary" role="alert">
             <div class="d-flex gap-4">
               <span><i class="fa-solid fa-circle-info icon-primary"></i></span>
@@ -22,6 +33,23 @@
               </div>
             </div>
           </div>
+        {% endif %}
+
+
+        {% if page.reviewer %}
+          <div class="reviewer-info">
+            {% image page.reviewer.photo fill-100x100 as reviewer_photo %}
+            {% if reviewer_photo %}
+                <img src="{{ reviewer_photo.url }}" alt="{{ page.reviewer.name }}" class="reviewer-photo">
+            {% endif %}
+            <p>Reviewed by: <span class="reviewer-name">{{ page.reviewer.name }}</span>, <span class="reviewer-credentials">{{ page.reviewer.credentials }}</span></p>
+            {% if page.reviewer.bio %}
+              <p class="reviewer-bio">{{ page.reviewer.bio }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+
+
     </div>
     <hr>
 

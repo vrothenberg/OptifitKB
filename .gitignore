@@ -11,3 +11,5 @@ env/
 
 project_content.txt
 project_structure.txt
+
+*.csv

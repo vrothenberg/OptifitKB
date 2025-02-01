@@ -14,7 +14,7 @@ article_stream_block = StreamBlock([
     ('rich_text', RichTextBlock()),
     ('faqs', FAQListBlock()),
     ('references', ReferenceListBlock()),
-    ('bulle_points', BulletPointBlock())
+    ('bullet_points', BulletPointBlock())
 ])
 
 
@@ -77,6 +77,9 @@ def generate_wagtail_streamfield_data(article_data):
     streamfield_data = []
     # print("generate_wagtail_streamfield_data")
 
+    # Define the keys that we don't want to process as sections
+    ignored_keys = {"title", "subtitle", "keywords", "article_image"}
+
     def convert_to_markdown(content):
         """Convert content to Markdown block."""
         # print("convert_to_markdown")
@@ -135,7 +138,12 @@ def generate_wagtail_streamfield_data(article_data):
             "value": html_content
         }
 
-    for section in article_data.get("sections", []):
+    for key, section in article_data.items():
+        if key in ignored_keys:
+            continue
+        if not (isinstance(section, dict) and "heading" in section and "content" in section):
+            continue
+
         heading = section.get("heading", "")
         content = section.get("content", "")
 
@@ -207,6 +215,17 @@ def generate_wagtail_streamfield_data(article_data):
             elif isinstance(content, str):
                 streamfield_data.append(convert_to_markdown(content))
 
+        elif heading == "Lifestyle":
+            if isinstance(content, str):
+               streamfield_data.append(convert_to_markdown(content))
+            elif isinstance(content, list):
+                streamfield_data.append(convert_to_bullet_points(content))
+            else:
+                streamfield_data.append({
+                     "type": "rich_text",
+                     "value": str(content)
+                 })
+
         elif heading == "Specialist to Visit":
             # Probably a string
             if isinstance(content, str):
@@ -227,6 +246,7 @@ def generate_wagtail_streamfield_data(article_data):
                     "value": str(content)
                 })
 
+        
         elif heading == "Home-Care":
             # Usually bullet points
             if isinstance(content, list):
@@ -254,6 +274,8 @@ def generate_wagtail_streamfield_data(article_data):
                 streamfield_data.append(convert_to_markdown(content))
             else:
                 streamfield_data.append(convert_to_bullet_points(content))
+
+        
 
         elif heading == "FAQs":
             # Expect a list of dict with question/answer
@@ -340,8 +362,5 @@ def generate_wagtail_streamfield_data(article_data):
     body_field = ArticlePage._meta.get_field("body")
     block_def = body_field.stream_block
     
-    # print("COMPLETE\n\n")
-    # print(streamfield_data)
-    return StreamValue(block_def, streamfield_data, is_lazy=True)
 
-    # return StreamValue(article_stream_block, streamfield_data, is_lazy=True)
+    return streamfield_data
